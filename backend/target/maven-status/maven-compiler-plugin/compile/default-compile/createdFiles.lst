@@ -1,0 +1,4 @@
+org/example/repository/UserRepository.class
+org/example/model/User.class
+org/example/App.class
+org/example/service/UserService.class
