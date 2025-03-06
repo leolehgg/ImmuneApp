@@ -8,17 +8,7 @@ const Home = () => {
     const { auth, setAuth } = useAuth();
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
-    const [protectedData, setProtectedData] = useState('');
 
-    const fetchProtectedData = async () => {
-        try {
-            const response = await axiosPrivate.get('/api/protected');
-            setProtectedData(response.data);
-        } catch (err) {
-            console.error(err);
-            setProtectedData('Failed to fetch protected data');
-        }
-    };
 
     const logout = async () => {
         try {
@@ -26,9 +16,10 @@ const Home = () => {
                 headers: { 'Authorization': `Bearer ${auth.accessToken}` }
             });
         } catch (err) {
-            console.error(err);
+            console.error('Logout request failed, but proceeding with client-side cleanup:', err);
         }
         setAuth({ email: '', accessToken: '', refreshToken: '', role: '' });
+        localStorage.removeItem('auth'); // Limpiar localStorage
         navigate('/login');
     };
 
@@ -36,9 +27,7 @@ const Home = () => {
         <section>
             <h1>Home</h1>
             <p>Welcome, {auth.email}! (Role: {auth.role})</p>
-            <button onClick={fetchProtectedData}>Get Protected Data</button>
-            {protectedData && <p>{protectedData}</p>}
-            <Link to="/users">View Users</Link>
+            <Link to="/users">Manage users</Link>
             <br />
             <button onClick={logout}>Logout</button>
         </section>

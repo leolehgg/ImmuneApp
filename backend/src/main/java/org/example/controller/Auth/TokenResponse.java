@@ -1,4 +1,4 @@
-package org.example.controller.Controller.Auth;
+package org.example.controller.Auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

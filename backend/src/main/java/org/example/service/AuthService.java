@@ -2,9 +2,9 @@ package org.example.service;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.example.controller.Controller.Auth.LoginRequest;
-import org.example.controller.Controller.Auth.RegisterRequest;
-import org.example.controller.Controller.Auth.TokenResponse;
+import org.example.controller.Auth.LoginRequest;
+import org.example.controller.Auth.RegisterRequest;
+import org.example.controller.Auth.TokenResponse;
 import org.example.model.Token;
 import org.example.model.User;
 import org.example.repository.TokenRepository;
@@ -32,7 +32,7 @@ public class AuthService {
                 .name(request.name())
                 .email(request.email())
                 .password(passwordEncoder.encode(request.password()))
-                .role("USER")         // todo cambiar el role
+                .role("ADMIN")         // todo cambiar el role
                 .build();
         var savedUser = userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);

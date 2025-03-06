@@ -17,41 +17,45 @@ public class CorsConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                // Rutas públicas
                 registry.addMapping("/auth/login")
                         .allowedOrigins(allowedOrigins)
-                        .allowedMethods("POST", "OPTIONS") // Añadir OPTIONS
+                        .allowedMethods("POST", "OPTIONS")
                         .allowedHeaders("Content-Type")
                         .allowCredentials(false);
 
                 registry.addMapping("/auth/register")
                         .allowedOrigins(allowedOrigins)
-                        .allowedMethods("POST", "OPTIONS") // Añadir OPTIONS
+                        .allowedMethods("POST", "OPTIONS")
                         .allowedHeaders("Content-Type")
                         .allowCredentials(false);
 
-                // Rutas protegidas
                 registry.addMapping("/auth/refresh")
                         .allowedOrigins(allowedOrigins)
-                        .allowedMethods("POST", "OPTIONS") // Añadir OPTIONS
+                        .allowedMethods("POST", "OPTIONS")
                         .allowedHeaders("Authorization", "Content-Type")
                         .allowCredentials(false);
 
                 registry.addMapping("/auth/logout")
                         .allowedOrigins(allowedOrigins)
-                        .allowedMethods("POST", "OPTIONS") // Añadir OPTIONS
+                        .allowedMethods("POST", "OPTIONS")
                         .allowedHeaders("Authorization", "Content-Type")
                         .allowCredentials(false);
 
                 registry.addMapping("/users/list")
                         .allowedOrigins(allowedOrigins)
-                        .allowedMethods("GET", "OPTIONS") // Añadir OPTIONS aquí
+                        .allowedMethods("GET", "OPTIONS")
+                        .allowedHeaders("Authorization", "Content-Type")
+                        .allowCredentials(false);
+
+                registry.addMapping("/users/**")
+                        .allowedOrigins(allowedOrigins)
+                        .allowedMethods("GET", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("Authorization", "Content-Type")
                         .allowCredentials(false);
 
                 registry.addMapping("/api/protected")
                         .allowedOrigins(allowedOrigins)
-                        .allowedMethods("GET", "OPTIONS") // Añadir OPTIONS
+                        .allowedMethods("GET", "OPTIONS")
                         .allowedHeaders("Authorization", "Content-Type")
                         .allowCredentials(false);
             }

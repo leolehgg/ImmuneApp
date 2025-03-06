@@ -1,6 +1,7 @@
 package org.example.repository;
 
 import org.example.model.Token;
+import org.example.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,4 +17,7 @@ public interface TokenRepository extends JpaRepository<Token, Long> {
 
 
     Optional<Token> findByToken(String token);
+
+    void deleteByUser(User user); // Método para eliminar tokens por usuario
+
 }
