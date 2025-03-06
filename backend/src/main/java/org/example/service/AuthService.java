@@ -32,13 +32,15 @@ public class AuthService {
                 .name(request.name())
                 .email(request.email())
                 .password(passwordEncoder.encode(request.password()))
+                .role("USER")         // todo cambiar el role
                 .build();
         var savedUser = userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
         saveUserToken(savedUser,jwtToken);
-        return new TokenResponse(jwtToken, refreshToken );
+        return new TokenResponse(jwtToken, refreshToken, user.getRole() );
     }
+
 
     public TokenResponse login(LoginRequest request){
         authenticationManager.authenticate(
@@ -53,8 +55,9 @@ public class AuthService {
         var refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
         saveUserToken(user,jwtToken);
-        return new TokenResponse(jwtToken,refreshToken);
+        return new TokenResponse(jwtToken,refreshToken,user.getRole());
     }
+
 
     private void revokeAllUserTokens(final User user) {
         final List<Token> validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
@@ -101,6 +104,6 @@ public class AuthService {
         revokeAllUserTokens(user);
         saveUserToken(user, accessToken);
 
-        return new TokenResponse(accessToken, refreshToken);
+        return new TokenResponse(accessToken, refreshToken,user.getRole());
     }
 }

@@ -15,8 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static org.springframework.http.HttpMethod.OPTIONS;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
-
 
 @Configuration
 @EnableWebSecurity
@@ -33,9 +33,11 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
-                        req.requestMatchers("/auth/**", "/" , "/api/test" , "/users/list" ,"/h2-console/**")
+                        req.requestMatchers("/auth/login", "/auth/register") // Rutas públicas
                                 .permitAll()
-                                .anyRequest()
+                                .requestMatchers(OPTIONS, "/**") // Permitir OPTIONS globalmente
+                                .permitAll()
+                                .anyRequest() // To-do lo demás requiere autenticación
                                 .authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
@@ -43,30 +45,27 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(logout ->
                         logout.logoutUrl("/auth/logout")
-                                .addLogoutHandler(((request, response,
-                                                    authentication) -> {
+                                .addLogoutHandler(((request, response, authentication) -> {
                                     final var authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
                                     logout(authHeader);
                                 }))
-                                .logoutSuccessHandler((request, response,
-                                                       authentication) -> SecurityContextHolder.clearContext())
+                                .logoutSuccessHandler((request, response, authentication) ->
+                                        SecurityContextHolder.clearContext())
                 );
 
         return http.build();
     }
 
     private void logout(final String token) {
-
         if (token == null || !token.startsWith("Bearer ")) {
             throw new IllegalArgumentException("Invalid token");
         }
 
         final String jwtToken = token.substring(7);
         final Token foundToken = tokenRepository.findByToken(jwtToken)
-                .orElseThrow(()-> new IllegalArgumentException("Invalid token"));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid token"));
         foundToken.setExpired(true);
         foundToken.setRevoked(true);
         tokenRepository.save(foundToken);
-
     }
 }
