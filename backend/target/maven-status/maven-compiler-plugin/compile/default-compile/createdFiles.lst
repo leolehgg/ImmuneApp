@@ -2,7 +2,6 @@ org\example\controller\LoginController.class
 org\example\controller\Auth\RegisterRequest.class
 org\example\config\CorsConfig$1.class
 org\example\model\User$UserBuilder.class
-org\example\controller\Auth\ApiController.class
 org\example\config\CorsConfig.class
 org\example\controller\TestController.class
 org\example\repository\TokenRepository.class

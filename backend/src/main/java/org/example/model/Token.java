@@ -18,9 +18,8 @@ public class Token implements Serializable {
     public enum TokenType {
         BEARER
     }
-
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true)

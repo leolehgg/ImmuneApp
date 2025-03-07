@@ -3,7 +3,6 @@ C:\Users\prole\Documents\Proyectos\ImmuneApp\backend\src\main\java\org\example\c
 C:\Users\prole\Documents\Proyectos\ImmuneApp\backend\src\main\java\org\example\config\CorsConfig.java
 C:\Users\prole\Documents\Proyectos\ImmuneApp\backend\src\main\java\org\example\config\JwtAuthFilter.java
 C:\Users\prole\Documents\Proyectos\ImmuneApp\backend\src\main\java\org\example\config\SecurityConfig.java
-C:\Users\prole\Documents\Proyectos\ImmuneApp\backend\src\main\java\org\example\controller\Auth\ApiController.java
 C:\Users\prole\Documents\Proyectos\ImmuneApp\backend\src\main\java\org\example\controller\Auth\AuthController.java
 C:\Users\prole\Documents\Proyectos\ImmuneApp\backend\src\main\java\org\example\controller\Auth\LoginRequest.java
 C:\Users\prole\Documents\Proyectos\ImmuneApp\backend\src\main\java\org\example\controller\Auth\RegisterRequest.java
