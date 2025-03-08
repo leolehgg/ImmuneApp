@@ -26,13 +26,11 @@ public class User {
     @Column(unique = true)
     private String email;
     private String password;
-
     private String lastname;
-    private String nickname;
     private String role;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    @JsonManagedReference  // Evita la recursión infinita al serializar
+    @JsonManagedReference
     private List<Token> tokens;
 
 }

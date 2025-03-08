@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.controller.Auth.ChangePasswordRequest;
 import org.example.model.User;
 import org.example.service.JwtService;
 import org.example.service.UserService;
@@ -68,11 +69,23 @@ public class UserController {
         String token = authHeader.substring(7);
         String email = jwtService.extractUsername(token);
         User user = userService.getUserByEmail(email);
-        // Actualiza solo los campos permitidos
         user.setName(updatedUser.getName());
         user.setLastname(updatedUser.getLastname());
-        user.setNickname(updatedUser.getNickname());
         User savedUser = userService.updateUser(user.getId(), user);
         return ResponseEntity.ok(savedUser);
+    }
+
+    @PutMapping("/me/password")
+    public ResponseEntity<String> changePassword(
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
+            @RequestBody ChangePasswordRequest request) {
+        String token = authHeader.substring(7);
+        String email = jwtService.extractUsername(token);
+        try {
+            userService.changePassword(email, request.oldPassword(), request.newPassword());
+            return ResponseEntity.ok("Password changed successfully");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

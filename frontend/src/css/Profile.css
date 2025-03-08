@@ -1,0 +1,121 @@
+.profile-section {
+    max-width: 600px;
+    padding: 20px;
+    margin: 20px auto;
+}
+
+.profile-section h1 {
+    font-size: 1.5rem;
+    color: #333333; /* Gris oscuro */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-card {
+    background-color: #ffffff; /* Blanco puro */
+    border-radius: 4px;
+    padding: 25px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-card p {
+    font-size: 1rem;
+    color: #666666; /* Gris medio */
+    margin: 10px 0;
+}
+
+.profile-card strong {
+    color: #333333; /* Gris oscuro */
+}
+
+.profile-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.edit-form {
+    background-color: #ffffff; /* Blanco puro */
+    border-radius: 4px;
+    padding: 25px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 1rem;
+    color: #333333; /* Gris oscuro */
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cccccc; /* Gris claro */
+    border-radius: 4px;
+    background-color: #fafafa; /* Blanco suave */
+    color: #333333;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: #26a69a; /* Teal suave */
+    outline: none;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #26a69a; /* Teal suave */
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #00897b; /* Teal más oscuro */
+}
+
+button:disabled {
+    background-color: #b0bec5; /* Gris azulado apagado */
+    cursor: not-allowed;
+}
+
+.error {
+    color: #ffffff;
+    background-color: #ef5350; /* Rojo suave */
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.success {
+    color: #ffffff;
+    background-color: #66bb6a; /* Verde claro */
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.validation-error {
+    color: #ef5350; /* Rojo suave */
+    font-size: 0.9rem;
+    margin-top: 5px;
+}

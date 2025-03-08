@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import axios from '../api/axios';
-import '../css/Home.css'; // Nueva ruta del CSS
+import '../css/Home.css';
 
 const Home = () => {
     const { auth, setAuth } = useAuth();
@@ -36,31 +36,35 @@ const Home = () => {
     };
 
     return (
-        <section className="home-section">
-            <div className="welcome-card">
-                <h1>Welcome, {auth.email}!</h1>
-                <p className="role">Your role: <span>{auth.role}</span></p>
-            </div>
+        <section className="home-container">
+            <div className="main-column">
+                <div className="welcome-card">
+                    <h1>Welcome, {auth.email.split('@')[0]}!</h1>
+                    <p className="role">Role: {auth.role}</p>
+                </div>
 
-            <div className="actions-card">
-                <h2>Quick Actions</h2>
-                <div className="action-buttons">
-                    <Link to="/profile" className="action-link">
-                        <button>My Profile</button>
-                    </Link>
-                    {auth.role === 'ADMIN' && (
-                        <Link to="/users" className="action-link">
-                            <button>Manage Users</button>
+                <div className="actions-card">
+                    <h2>Quick Actions</h2>
+                    <div className="action-buttons">
+                        <Link to="/profile" className="action-link">
+                            <button>My Profile</button>
                         </Link>
-                    )}
-                    <button onClick={logout} className="logout-btn">Logout</button>
+                        {auth.role === 'ADMIN' && (
+                            <Link to="/users" className="action-link">
+                                <button>Manage Users</button>
+                            </Link>
+                        )}
+                        <button onClick={logout} className="logout-btn">Logout</button>
+                    </div>
                 </div>
             </div>
 
-            <div className="info-card">
-                <h2>Account Info</h2>
-                <p>Email: {auth.email}</p>
-                <p>Last Login: {lastLogin || 'Loading...'}</p>
+            <div className="side-column">
+                <div className="info-card">
+                    <h3>Account Info</h3>
+                    <p>Email: {auth.email}</p>
+                    <p>Last Login: {lastLogin || 'Loading...'}</p>
+                </div>
             </div>
         </section>
     );
