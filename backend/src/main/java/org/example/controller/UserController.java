@@ -1,8 +1,10 @@
 package org.example.controller;
 
 import org.example.model.User;
+import org.example.service.JwtService;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +15,12 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
+    private final JwtService jwtService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, JwtService jwtService) {
         this.userService = userService;
+        this.jwtService = jwtService;
     }
 
     @GetMapping("/list")
@@ -47,5 +51,28 @@ public class UserController {
         userService.deleteUser(id);
         System.out.println("Usuario eliminado con éxito: " + id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<User> getCurrentUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) {
+        String token = authHeader.substring(7); // Quita "Bearer "
+        String email = jwtService.extractUsername(token);
+        User user = userService.getUserByEmail(email);
+        return ResponseEntity.ok(user);
+    }
+
+    @PutMapping("/me")
+    public ResponseEntity<User> updateCurrentUser(
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
+            @RequestBody User updatedUser) {
+        String token = authHeader.substring(7);
+        String email = jwtService.extractUsername(token);
+        User user = userService.getUserByEmail(email);
+        // Actualiza solo los campos permitidos
+        user.setName(updatedUser.getName());
+        user.setLastname(updatedUser.getLastname());
+        user.setNickname(updatedUser.getNickname());
+        User savedUser = userService.updateUser(user.getId(), user);
+        return ResponseEntity.ok(savedUser);
     }
 }

@@ -58,6 +58,12 @@ public class CorsConfig {
                         .allowedMethods("GET", "OPTIONS")
                         .allowedHeaders("Authorization", "Content-Type")
                         .allowCredentials(false);
+
+                registry.addMapping("/users/me")
+                        .allowedOrigins(allowedOrigins)
+                        .allowedMethods("GET", "PUT", "OPTIONS")
+                        .allowedHeaders("Authorization", "Content-Type")
+                        .allowCredentials(false);
             }
         };
     }

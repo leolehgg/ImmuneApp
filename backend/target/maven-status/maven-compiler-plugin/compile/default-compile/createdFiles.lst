@@ -1,9 +1,7 @@
-org\example\controller\LoginController.class
 org\example\controller\Auth\RegisterRequest.class
 org\example\config\CorsConfig$1.class
 org\example\model\User$UserBuilder.class
 org\example\config\CorsConfig.class
-org\example\controller\TestController.class
 org\example\repository\TokenRepository.class
 org\example\controller\Auth\LoginRequest.class
 org\example\repository\UserRepository.class
@@ -15,10 +13,8 @@ org\example\service\JwtService.class
 org\example\controller\Auth\TokenResponse.class
 org\example\model\Token.class
 org\example\service\UserService.class
-org\example\controller\Auth\AuthController.class
 org\example\model\User.class
 org\example\service\AuthService.class
 org\example\config\AppConfig.class
-org\example\controller\HomeController.class
 org\example\controller\UserController.class
 org\example\config\SecurityConfig.class

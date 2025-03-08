@@ -4,10 +4,11 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
 import UserManagement from './components/UserManagement';
+import Profile from './components/Profile';
 import Unauthorized from './components/Unauthorized';
 import RequireAuth from './components/RequireAuth';
 import Navbar from './components/Navbar';
-import './styles.css';
+import './css/global.css'; // Nueva ruta del CSS global
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
                     <Route element={<RequireAuth allowedRoles={['USER', 'ADMIN']} />}>
                         <Route path="/" element={<Home />} />
                         <Route path="/users" element={<UserManagement />} />
+                        <Route path="/profile" element={<Profile />} />
                         <Route path="/unauthorized" element={<Unauthorized />} />
                     </Route>
                 </Routes>

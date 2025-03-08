@@ -51,4 +51,9 @@ public class UserService {
         userRepository.deleteById(id);
         System.out.println("Usuario eliminado con ID: " + id);
     }
+
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + email));
+    }
 }

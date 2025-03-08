@@ -1,0 +1,194 @@
+/* Reset y estilos base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(45deg, rgba(30, 58, 138, 0.3), rgba(22, 101, 52, 0.2), rgba(127, 29, 29, 0.2), #1a1a1a); /* Degradado inicial */
+    background-size: 200% 200%; /* Para animación fluida */
+    animation: gradientFlow 15s ease infinite; /* Animación de 15 segundos */
+    color: #b3b3b3; /* Gris claro para texto */
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+  
+  /* Animación del degradado */
+  @keyframes gradientFlow {
+    0% {
+      background-position: 0% 0%;
+    }
+    25% {
+      background-position: 100% 0%;
+    }
+    50% {
+      background-position: 100% 100%;
+    }
+    75% {
+      background-position: 0% 100%;
+    }
+    100% {
+      background-position: 0% 0%;
+    }
+  }
+  
+  /* Contenedor principal */
+  main {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+    position: relative; /* Asegura que esté sobre el fondo */
+  }
+  
+  /* Navegación */
+  nav {
+    background-color: #333333; /* Gris oscuro */
+    padding: 15px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    position: relative; /* Sobre el fondo */
+  }
+  
+  nav .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  nav a {
+    color: #ffffff; /* Blanco */
+    text-decoration: none;
+    font-weight: 600;
+    margin-right: 20px;
+    transition: color 0.3s ease;
+  }
+  
+  nav a:hover {
+    color: #b3b3b3; /* Gris claro en hover */
+  }
+  
+  nav button {
+    background-color: #666666; /* Gris medio */
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 3px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  nav button:hover {
+    background-color: #333333; /* Gris oscuro */
+  }
+  
+  /* Estilos genéricos para secciones */
+  section {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 30px;
+    background-color: #333333; /* Gris oscuro para tarjetas */
+    border: 1px solid #666666; /* Gris medio para bordes */
+    border-radius: 4px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    position: relative; /* Sobre el fondo */
+  }
+  
+  /* Formularios genéricos */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  label {
+    font-weight: 500;
+    color: #b3b3b3; /* Gris claro */
+    margin-bottom: 5px;
+  }
+  
+  input, select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #666666;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #1a1a1a; /* Negro para inputs */
+    color: #ffffff; /* Texto blanco */
+    transition: border-color 0.3s ease;
+  }
+  
+  input:focus, select:focus {
+    border-color: #b3b3b3; /* Gris claro en foco */
+    outline: none;
+  }
+  
+  /* Botones genéricos */
+  button {
+    padding: 10px 20px;
+    background-color: #666666; /* Gris medio */
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #4d4d4d; /* Gris más oscuro */
+  }
+  
+  button[type="button"] {
+    background-color: #666666; /* Gris medio */
+  }
+  
+  button[type="button"]:hover {
+    background-color: #333333; /* Gris oscuro */
+  }
+  
+  /* Mensajes de error */
+  .error {
+    color: #ffffff; /* Blanco */
+    background-color: #666666; /* Gris medio */
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  /* Enlaces genéricos */
+  a {
+    color: #b3b3b3; /* Gris claro */
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Responsividad global */
+  @media (max-width: 768px) {
+    main {
+      padding: 0 10px;
+    }
+  
+    nav .container {
+      flex-direction: column;
+      gap: 15px;
+      padding: 10px 20px;
+    }
+  
+    nav a, nav button {
+      margin-right: 10px;
+    }
+  
+    section {
+      padding: 20px;
+      max-width: 100%;
+    }
+  }

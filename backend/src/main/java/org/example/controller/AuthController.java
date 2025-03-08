@@ -1,7 +1,10 @@
-package org.example.controller.Auth;
+package org.example.controller;
 
 
 import lombok.RequiredArgsConstructor;
+import org.example.controller.Auth.LoginRequest;
+import org.example.controller.Auth.RegisterRequest;
+import org.example.controller.Auth.TokenResponse;
 import org.example.service.AuthService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;

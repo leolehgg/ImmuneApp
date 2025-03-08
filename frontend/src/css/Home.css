@@ -1,0 +1,88 @@
+.home-section {
+    max-width: 1000px;
+    padding: 20px;
+  }
+  
+  .welcome-card, .actions-card, .info-card {
+    background-color: #333333;
+    border: 1px solid #666666;
+    border-radius: 4px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .welcome-card h1 {
+    font-size: 2rem;
+    color: #ffffff;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .role {
+    font-size: 1.1rem;
+    color: #b3b3b3;
+    text-align: center;
+  }
+  
+  .role span {
+    font-weight: 600;
+    color: #ffffff;
+  }
+  
+  .actions-card h2, .info-card h2 {
+    font-size: 1.5rem;
+    color: #ffffff;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .action-link {
+    text-decoration: none;
+  }
+  
+  .action-link button {
+    width: 100%;
+    padding: 12px 20px;
+  }
+  
+  .logout-btn {
+    background-color: #666666;
+  }
+  
+  .logout-btn:hover {
+    background-color: #333333;
+  }
+  
+  .info-card p {
+    font-size: 1rem;
+    color: #b3b3b3;
+    margin: 5px 0;
+    text-align: center;
+  }
+  
+  @media (max-width: 768px) {
+    .home-section {
+      padding: 10px;
+    }
+  
+    .welcome-card h1 {
+      font-size: 1.5rem;
+    }
+  
+    .actions-card h2, .info-card h2 {
+      font-size: 1.25rem;
+    }
+  
+    .action-buttons {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
