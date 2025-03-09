@@ -21,7 +21,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@EnableMethodSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
@@ -33,12 +33,12 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
-                        req.requestMatchers("/auth/login", "/auth/register") // Rutas públicas
+                        req.requestMatchers("/auth/login", "/auth/refresh")
                                 .permitAll()
-                                .requestMatchers(OPTIONS, "/**") // Permitir OPTIONS globalmente
+                                .requestMatchers(OPTIONS, "/**")
                                 .permitAll()
-                                .anyRequest() // To-do lo demás requiere autenticación
-                                .authenticated()
+                                .anyRequest()
+                                .authenticated() // Solo requiere autenticación, no roles específicos
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)
@@ -60,7 +60,6 @@ public class SecurityConfig {
         if (token == null || !token.startsWith("Bearer ")) {
             throw new IllegalArgumentException("Invalid token");
         }
-
         final String jwtToken = token.substring(7);
         final Token foundToken = tokenRepository.findByToken(jwtToken)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid token"));

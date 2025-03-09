@@ -3,7 +3,6 @@ package org.example.service;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.example.controller.Auth.LoginRequest;
-import org.example.controller.Auth.RegisterRequest;
 import org.example.controller.Auth.TokenResponse;
 import org.example.model.Token;
 import org.example.model.User;
@@ -12,7 +11,6 @@ import org.example.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,26 +21,10 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
-    private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public TokenResponse register(RegisterRequest request){
-        var user = User.builder()
-                .name(request.name())
-                .email(request.email())
-                .password(passwordEncoder.encode(request.password()))
-                .role("ADMIN")         // todo cambiar el role
-                .build();
-        var savedUser = userRepository.save(user);
-        var jwtToken = jwtService.generateToken(user);
-        var refreshToken = jwtService.generateRefreshToken(user);
-        saveUserToken(savedUser,jwtToken);
-        return new TokenResponse(jwtToken, refreshToken, user.getRole() );
-    }
-
-
-    public TokenResponse login(LoginRequest request){
+    public TokenResponse login(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.email(),
@@ -54,15 +36,14 @@ public class AuthService {
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
-        saveUserToken(user,jwtToken);
-        return new TokenResponse(jwtToken,refreshToken,user.getRole());
+        saveUserToken(user, jwtToken);
+        return new TokenResponse(jwtToken, refreshToken, user.getRole().name());
     }
-
 
     private void revokeAllUserTokens(final User user) {
         final List<Token> validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
         if (!validUserTokens.isEmpty()) {
-            for(final Token token:validUserTokens){
+            for (final Token token : validUserTokens) {
                 token.setExpired(true);
                 token.setRevoked(true);
             }
@@ -70,7 +51,7 @@ public class AuthService {
         }
     }
 
-    private void saveUserToken(User user, String jwtToken){
+    private void saveUserToken(User user, String jwtToken) {
         var token = Token.builder()
                 .user(user)
                 .token(jwtToken)
@@ -82,7 +63,6 @@ public class AuthService {
     }
 
     public TokenResponse refreshToken(@NotNull final String authHeader) {
-
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new IllegalArgumentException("Invalid Bearer header");
         }
@@ -90,20 +70,20 @@ public class AuthService {
         final String userEmail = jwtService.extractUsername(refreshToken);
 
         if (userEmail == null) {
-            throw  new IllegalArgumentException("Invalid Refresh Token");
-        }
-
-        final User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(()-> new UsernameNotFoundException(userEmail));
-
-        if(!jwtService.isTokenValid(refreshToken, user)){
             throw new IllegalArgumentException("Invalid Refresh Token");
         }
 
-        final String accessToken = jwtService.generateRefreshToken(user);
+        final User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new UsernameNotFoundException(userEmail));
+
+        if (!jwtService.isTokenValid(refreshToken, user)) {
+            throw new IllegalArgumentException("Invalid Refresh Token");
+        }
+
+        final String accessToken = jwtService.generateToken(user); // Corregido: Usar access token
         revokeAllUserTokens(user);
         saveUserToken(user, accessToken);
 
-        return new TokenResponse(accessToken, refreshToken,user.getRole());
+        return new TokenResponse(accessToken, refreshToken, user.getRole().name());
     }
 }

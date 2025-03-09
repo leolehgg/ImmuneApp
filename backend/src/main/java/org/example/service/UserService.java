@@ -1,13 +1,14 @@
 package org.example.service;
 
+import org.example.model.Class;
 import org.example.model.User;
+import org.example.repository.ClassRepository;
 import org.example.repository.UserRepository;
 import org.example.repository.TokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -17,16 +18,17 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
+    private final ClassRepository classRepository;
     private final PasswordEncoder passwordEncoder;
 
-    // Patrón para validar complejidad: al menos una mayúscula, una minúscula y un número
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$");
 
     @Autowired
-    public UserService(UserRepository userRepository, TokenRepository tokenRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, TokenRepository tokenRepository, ClassRepository classRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.tokenRepository = tokenRepository;
+        this.classRepository = classRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -39,13 +41,18 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
     }
 
-    public User createUser(User user) {
+    public User createUser(User user, String requesterRole) {
+        if (!requesterRole.equals("ADMIN") && user.getRole() != User.Role.ALUMNO) {
+            throw new IllegalArgumentException("Only admins can create non-student users");
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
     public User updateUser(Long id, User updatedUser) {
         User user = getUserById(id);
         user.setName(updatedUser.getName());
+        user.setLastname(updatedUser.getLastname());
         user.setEmail(updatedUser.getEmail());
         user.setRole(updatedUser.getRole());
         return userRepository.save(user);
@@ -55,9 +62,7 @@ public class UserService {
     public void deleteUser(Long id) {
         User user = getUserById(id);
         tokenRepository.deleteByUser(user);
-        System.out.println("Tokens eliminados para usuario con ID: " + id);
         userRepository.deleteById(id);
-        System.out.println("Usuario eliminado con ID: " + id);
     }
 
     public User getUserByEmail(String email) {
@@ -73,11 +78,8 @@ public class UserService {
         if (newPassword == null || newPassword.trim().isEmpty()) {
             throw new IllegalArgumentException("New password cannot be empty");
         }
-        if (newPassword.length() < 8) {
-            throw new IllegalArgumentException("Password must be at least 8 characters long");
-        }
-        if (!PASSWORD_PATTERN.matcher(newPassword).matches()) {
-            throw new IllegalArgumentException("Password must contain at least one uppercase letter, one lowercase letter, and one number");
+        if (newPassword.length() < 8 || !PASSWORD_PATTERN.matcher(newPassword).matches()) {
+            throw new IllegalArgumentException("Password must be at least 8 characters with one uppercase, one lowercase, and one number");
         }
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);

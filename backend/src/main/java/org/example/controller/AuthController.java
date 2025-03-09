@@ -1,9 +1,7 @@
 package org.example.controller;
 
-
 import lombok.RequiredArgsConstructor;
 import org.example.controller.Auth.LoginRequest;
-import org.example.controller.Auth.RegisterRequest;
 import org.example.controller.Auth.TokenResponse;
 import org.example.service.AuthService;
 import org.springframework.http.HttpHeaders;
@@ -16,12 +14,6 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService service;
-
-    @PostMapping("/register")
-    public ResponseEntity<TokenResponse> register(@RequestBody final RegisterRequest request) {
-        final TokenResponse token = service.register(request);
-        return ResponseEntity.ok(token);
-    }
 
     @PostMapping("/login")
     public ResponseEntity<TokenResponse> authenticate(@RequestBody final LoginRequest request) {

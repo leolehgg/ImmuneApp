@@ -3,13 +3,17 @@ C:\Users\prole\Documents\Proyectos\ImmuneApp\backend\src\main\java\org\example\c
 C:\Users\prole\Documents\Proyectos\ImmuneApp\backend\src\main\java\org\example\config\CorsConfig.java
 C:\Users\prole\Documents\Proyectos\ImmuneApp\backend\src\main\java\org\example\config\JwtAuthFilter.java
 C:\Users\prole\Documents\Proyectos\ImmuneApp\backend\src\main\java\org\example\config\SecurityConfig.java
+C:\Users\prole\Documents\Proyectos\ImmuneApp\backend\src\main\java\org\example\controller\Auth\ChangePasswordRequest.java
 C:\Users\prole\Documents\Proyectos\ImmuneApp\backend\src\main\java\org\example\controller\Auth\LoginRequest.java
 C:\Users\prole\Documents\Proyectos\ImmuneApp\backend\src\main\java\org\example\controller\Auth\RegisterRequest.java
 C:\Users\prole\Documents\Proyectos\ImmuneApp\backend\src\main\java\org\example\controller\Auth\TokenResponse.java
 C:\Users\prole\Documents\Proyectos\ImmuneApp\backend\src\main\java\org\example\controller\AuthController.java
+C:\Users\prole\Documents\Proyectos\ImmuneApp\backend\src\main\java\org\example\controller\ClassController.java
 C:\Users\prole\Documents\Proyectos\ImmuneApp\backend\src\main\java\org\example\controller\UserController.java
+C:\Users\prole\Documents\Proyectos\ImmuneApp\backend\src\main\java\org\example\model\Class.java
 C:\Users\prole\Documents\Proyectos\ImmuneApp\backend\src\main\java\org\example\model\Token.java
 C:\Users\prole\Documents\Proyectos\ImmuneApp\backend\src\main\java\org\example\model\User.java
+C:\Users\prole\Documents\Proyectos\ImmuneApp\backend\src\main\java\org\example\repository\ClassRepository.java
 C:\Users\prole\Documents\Proyectos\ImmuneApp\backend\src\main\java\org\example\repository\TokenRepository.java
 C:\Users\prole\Documents\Proyectos\ImmuneApp\backend\src\main\java\org\example\repository\UserRepository.java
 C:\Users\prole\Documents\Proyectos\ImmuneApp\backend\src\main\java\org\example\service\AuthService.java

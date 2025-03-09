@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.Map;
+import java.util.function.Function;
 
 @Service
 public class JwtService {
@@ -25,32 +26,35 @@ public class JwtService {
     private long refreshExpiration;
 
     public String extractUsername(String token) {
-        final Claims jwtToken = Jwts.parser()
+        return (String) extractClaim(token, Claims::getSubject);
+    }
+
+    public Object extractClaim(String token, Function<Claims, Object> claimsResolver) {
+        final Claims claims = Jwts.parser()
                 .verifyWith(getSignInKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
-        return jwtToken.getSubject();
+        return claimsResolver.apply(claims);
     }
 
-
-    public String generateToken(final User user){
-        return buildToken(user,jwtExpiration);
+    public String generateToken(final User user) {
+        return buildToken(user, jwtExpiration);
     }
 
-    public String generateRefreshToken(final User user){
+    public String generateRefreshToken(final User user) {
         return buildToken(user, refreshExpiration);
     }
-    private String buildToken(final User user, final long expiration){
+
+    private String buildToken(final User user, final long expiration) {
         return Jwts.builder()
                 .id(user.getId().toString())
-                .claims(Map.of("name",user.getName()))
+                .claims(Map.of("name", user.getName(), "role", user.getRole().name()))
                 .subject(user.getEmail())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSignInKey())
                 .compact();
-
     }
 
     public boolean isTokenValid(String token, User user) {
@@ -63,16 +67,10 @@ public class JwtService {
     }
 
     private Date extractExpiration(String token) {
-        final Claims jwtToken =  Jwts.parser()
-                .verifyWith(getSignInKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
-
-        return jwtToken.getExpiration();
+        return (Date) extractClaim(token, Claims::getExpiration);
     }
 
-    private SecretKey getSignInKey(){
+    private SecretKey getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
