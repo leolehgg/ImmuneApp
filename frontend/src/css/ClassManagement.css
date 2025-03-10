@@ -1,0 +1,28 @@
+/* src/css/ClassManagement.css */
+.class-management-section {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .class-management-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .class-management-section ul li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+  }
+  
+  .class-management-section ul li button {
+    margin-left: 10px;
+  }
+  
+  .class-management-section ul li select {
+    margin-left: 10px;
+    padding: 5px;
+  }

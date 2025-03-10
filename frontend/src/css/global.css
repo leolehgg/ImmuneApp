@@ -1,4 +1,4 @@
-/* Reset y estilos base */
+/* src/css/Global.css */
 * {
   margin: 0;
   padding: 0;
@@ -6,174 +6,159 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background-color: #f5f5f5; /* Blanco suave estático */
-  color: #333333; /* Gris oscuro para texto */
-  min-height: 100vh;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f5f5f5;
+  color: #333333;
+  font-size: 14px;
   line-height: 1.6;
+  min-height: 100vh;
 }
 
-/* Contenedor principal */
-main {
-  max-width: 1200px;
-  margin: 20px auto;
-  padding: 0 20px;
+/* Contenedor Principal */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-/* Navegación */
-nav {
-  background-color: #08444a; /* Blanco puro */
-  padding: 15px 0;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.main-layout {
+  display: flex;
+  flex: 1;
 }
 
-nav .container {
+.main-content {
+  flex: 1;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
-nav a {
-  color: #ffffff; /* Gris oscuro */
-  text-decoration: none;
+/* Tipografía y Encabezados */
+h1 {
+  font-size: 24px;
   font-weight: 600;
-  margin-right: 20px;
-  transition: color 0.3s ease;
+  margin-bottom: 8px;
+  text-align: center;
 }
 
-nav a:hover {
-  color: #26a69a; /* Teal suave */
+h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
 }
 
-nav button {
-  background-color: #26a69a; /* Teal suave */
+h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+p {
+  font-size: 14px;
+  color: #666666;
+  margin: 4px 0;
+}
+
+strong {
+  color: #333333;
+}
+
+/* Botones Genéricos */
+button,
+.action-link button {
+  padding: 8px 16px;
+  background-color: #4b4b4b;
   color: #ffffff;
   border: none;
-  padding: 8px 16px;
   border-radius: 4px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 400;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s ease;
 }
 
-nav button:hover {
-  background-color: #00897b; /* Teal más oscuro */
+button:hover,
+.action-link button:hover {
+  background-color: #333333;
 }
 
-/* Estilos genéricos para secciones */
-section {
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 30px;
-  background-color: #ffffff; /* Blanco puro */
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.logout-btn {
+  background-color: #d32f2f;
 }
 
-/* Formularios genéricos */
+.logout-btn:hover {
+  background-color: #b71c1c;
+}
+
+/* Formularios */
 form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 12px;
 }
 
-label {
-  font-weight: 500;
-  color: #333333; /* Gris oscuro */
-  margin-bottom: 5px;
+.form-group {
+  margin-bottom: 12px;
 }
 
-input, select {
+.form-group label {
+  font-size: 14px;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+  display: block;
+}
+
+input,
+select {
   width: 100%;
-  padding: 12px;
-  border: 1px solid #cccccc; /* Gris claro */
+  padding: 8px;
+  border: 1px solid #d1d1d1;
   border-radius: 4px;
-  font-size: 1rem;
-  background-color: #fafafa; /* Blanco suave */
-  color: #333333;
-  transition: border-color 0.3s ease;
+  font-size: 14px;
+  color: #1a1a1a;
+  background-color: #ffffff;
+  transition: border-color 0.2s ease;
 }
 
-input:focus, select:focus {
-  border-color: #26a69a; /* Teal suave */
+input:focus,
+select:focus {
+  border-color: #4b4b4b;
   outline: none;
 }
 
-/* Botones genéricos */
-button {
-  padding: 10px 20px;
-  background-color: #26a69a; /* Teal suave */
-  color: #ffffff;
-  border: none;
+/* Mensajes */
+.error,
+.success {
+  padding: 8px 12px;
   border-radius: 4px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #00897b; /* Teal más oscuro */
-}
-
-button[type="button"] {
-  background-color: #26a69a;
-}
-
-button[type="button"]:hover {
-  background-color: #00897b;
-}
-
-/* Mensajes de error y éxito */
-.error {
-  color: #ffffff;
-  background-color: #ef5350; /* Rojo suave */
-  padding: 10px;
-  border-radius: 4px;
-  margin-bottom: 15px;
+  font-size: 14px;
+  margin-bottom: 12px;
   text-align: center;
+}
+
+.error {
+  background-color: #d32f2f;
+  color: #ffffff;
 }
 
 .success {
+  background-color: #388e3c;
   color: #ffffff;
-  background-color: #66bb6a; /* Verde claro */
-  padding: 10px;
-  border-radius: 4px;
-  margin-bottom: 15px;
-  text-align: center;
 }
 
-/* Enlaces genéricos */
-a {
-  color: #666666; /* Gris medio */
-  text-decoration: none;
+.validation-error {
+  color: #d32f2f;
+  font-size: 12px;
+  margin-top: 4px;
 }
 
-a:hover {
-  text-decoration: underline;
-  color: #26a69a; /* Teal suave */
-}
-
-/* Responsividad global */
+/* Responsividad */
 @media (max-width: 768px) {
-  main {
-      padding: 0 10px;
-  }
-
-  nav .container {
-      flex-direction: column;
-      gap: 15px;
-      padding: 10px 20px;
-  }
-
-  nav a, nav button {
-      margin-right: 10px;
-  }
-
-  section {
-      padding: 20px;
-      max-width: 100%;
+  .main-content {
+    padding: 20px 12px;
+    grid-template-columns: 1fr;
   }
 }
