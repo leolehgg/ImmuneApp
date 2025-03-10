@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -160,6 +161,24 @@ public class UserController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    // En UserController.java
+    @GetMapping("/professors")
+    @PreAuthorize("hasAnyRole('ADMIN', 'PROFESOR')")
+    public ResponseEntity<List<User>> getProfessors(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) {
+        String token = authHeader.substring(7);
+        String email = jwtService.extractUsername(token);
+        User requester = userService.getUserByEmail(email);
+
+        if (requester.getRole() == User.Role.ADMIN) {
+            return ResponseEntity.ok(userService.getUsersByRole(User.Role.PROFESOR));
+        } else {
+            // Si es profesor, solo devuelve su propia información
+            return ResponseEntity.ok(Collections.singletonList(requester));
+        }
+    }
+
+
 }
 
 // Ajustar UserRequest para quitar classIds

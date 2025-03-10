@@ -64,6 +64,19 @@ public class CorsConfig {
                         .allowedMethods("GET", "PUT", "OPTIONS")
                         .allowedHeaders("Authorization", "Content-Type")
                         .allowCredentials(false);
+
+                // Añadir soporte para /classes/**
+                registry.addMapping("/classes/**")
+                        .allowedOrigins(allowedOrigins)
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("Authorization", "Content-Type")
+                        .allowCredentials(false);
+
+                registry.addMapping("/users/professors")
+                        .allowedOrigins(allowedOrigins)
+                        .allowedMethods("GET", "OPTIONS")
+                        .allowedHeaders("Authorization", "Content-Type")
+                        .allowCredentials(false);
             }
         };
     }

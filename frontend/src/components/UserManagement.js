@@ -7,6 +7,7 @@ const UserManagement = () => {
     const { auth } = useAuth();
     const [users, setUsers] = useState([]);
     const [editUser, setEditUser] = useState(null);
+    const [newStudent, setNewStudent] = useState({ name: '', lastname: '', email: '', password: '' });
 
     useEffect(() => {
         fetchUsers();
@@ -47,9 +48,54 @@ const UserManagement = () => {
         }
     };
 
+    const handleCreateStudent = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axiosPrivate.post('/users/students', newStudent);
+            setUsers([...users, response.data]);
+            setNewStudent({ name: '', lastname: '', email: '', password: '' });
+        } catch (err) {
+            console.error('Failed to create student:', err);
+        }
+    };
+
     return (
         <section>
             <h1>User Management</h1>
+            {(auth.role === 'ADMIN' || auth.role === 'PROFESOR') && (
+                <form onSubmit={handleCreateStudent} style={{ marginBottom: '20px' }}>
+                    <input
+                        type="text"
+                        placeholder="Name"
+                        value={newStudent.name}
+                        onChange={(e) => setNewStudent({ ...newStudent, name: e.target.value })}
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder="Lastname"
+                        value={newStudent.lastname}
+                        onChange={(e) => setNewStudent({ ...newStudent, lastname: e.target.value })}
+                        required
+                    />
+                    <input
+                        type="email"
+                        placeholder="Email"
+                        value={newStudent.email}
+                        onChange={(e) => setNewStudent({ ...newStudent, email: e.target.value })}
+                        required
+                    />
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        value={newStudent.password}
+                        onChange={(e) => setNewStudent({ ...newStudent, password: e.target.value })}
+                        required
+                    />
+                    <button type="submit">Create Student</button>
+                </form>
+            )}
+
             {users.length > 0 ? (
                 <ul style={{ listStyle: 'none', padding: 0 }}>
                     {users.map(user => (
@@ -61,29 +107,20 @@ const UserManagement = () => {
                             backgroundColor: '#F5F5F5',
                             borderRadius: '4px'
                         }}>
-                            <span>{user.email} - {user.name} ({user.role})</span>
-                            {auth.role === 'ADMIN' && (
+                            <span>{user.email} - {user.name} {user.lastname} ({user.role})</span>
+                            {(auth.role === 'ADMIN' || (auth.role === 'PROFESOR' && user.role === 'ALUMNO')) && (
                                 <div>
-                                    <button
-                                        onClick={() => handleEdit(user)}
-                                        style={{ marginRight: '10px' }}
-                                    >
-                                        Edit
-                                    </button>
-                                    <button
-                                        onClick={() => handleDelete(user.id)}
-                                        style={{ backgroundColor: '#EF5350' }}
-                                    >
-                                        Delete
-                                    </button>
+                                    <button onClick={() => handleEdit(user)} style={{ marginRight: '10px' }}>Edit</button>
+                                    <button onClick={() => handleDelete(user.id)} style={{ backgroundColor: '#EF5350' }}>Delete</button>
                                 </div>
                             )}
                         </li>
                     ))}
                 </ul>
             ) : (
-                <p style={{ color: '#666' }}>No users to display</p>
+                <p>No users to display</p>
             )}
+
             {editUser && (
                 <form onSubmit={handleUpdate} style={{ marginTop: '20px' }}>
                     <input
@@ -94,26 +131,32 @@ const UserManagement = () => {
                         required
                     />
                     <input
+                        type="text"
+                        value={editUser.lastname}
+                        onChange={(e) => setEditUser({ ...editUser, lastname: e.target.value })}
+                        placeholder="Lastname"
+                        required
+                    />
+                    <input
                         type="email"
                         value={editUser.email}
                         onChange={(e) => setEditUser({ ...editUser, email: e.target.value })}
                         placeholder="Email"
                         required
                     />
-                    <select
-                        value={editUser.role}
-                        onChange={(e) => setEditUser({ ...editUser, role: e.target.value })}
-                    >
-                        <option value="USER">USER</option>
-                        <option value="ADMIN">ADMIN</option>
-                    </select>
+                    {auth.role === 'ADMIN' && (
+                        <select
+                            value={editUser.role}
+                            onChange={(e) => setEditUser({ ...editUser, role: e.target.value })}
+                        >
+                            <option value="ADMIN">ADMIN</option>
+                            <option value="PROFESOR">PROFESOR</option>
+                            <option value="ALUMNO">ALUMNO</option>
+                        </select>
+                    )}
                     <div style={{ marginTop: '10px' }}>
                         <button type="submit" style={{ marginRight: '10px' }}>Save</button>
-                        <button
-                            type="button"
-                            onClick={() => setEditUser(null)}
-                            style={{ backgroundColor: '#666' }}
-                        >
+                        <button type="button" onClick={() => setEditUser(null)} style={{ backgroundColor: '#666' }}>
                             Cancel
                         </button>
                     </div>

@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
-import axios from '../api/axios';
 import '../css/Home.css';
 
 const Home = () => {
@@ -10,6 +9,7 @@ const Home = () => {
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
     const [lastLogin, setLastLogin] = useState(null);
+    const [classes, setClasses] = useState([]);
 
     useEffect(() => {
         const storedLastLogin = localStorage.getItem('lastLogin');
@@ -20,15 +20,25 @@ const Home = () => {
         } else {
             setLastLogin(storedLastLogin);
         }
-    }, []);
+        fetchClasses();
+    }, [axiosPrivate]);
+
+    const fetchClasses = async () => {
+        try {
+            const response = await axiosPrivate.get('/classes');
+            setClasses(response.data);
+        } catch (err) {
+            console.error('Failed to fetch classes:', err);
+        }
+    };
 
     const logout = async () => {
         try {
-            await axios.post('/auth/logout', {}, {
+            await axiosPrivate.post('/auth/logout', {}, {
                 headers: { 'Authorization': `Bearer ${auth.accessToken}` }
             });
         } catch (err) {
-            console.error('Logout request failed, but proceeding with client-side cleanup:', err);
+            console.error('Logout request failed:', err);
         }
         setAuth({ email: '', accessToken: '', refreshToken: '', role: '' });
         localStorage.removeItem('auth');
@@ -54,9 +64,25 @@ const Home = () => {
                                 <button>Manage Users</button>
                             </Link>
                         )}
+                        {(auth.role === 'ADMIN' || auth.role === 'PROFESOR') && (
+                            <Link to="/classes" className="action-link">
+                                <button>Manage Classes</button>
+                            </Link>
+                        )}
                         <button onClick={logout} className="logout-btn">Logout</button>
                     </div>
                 </div>
+
+                {(auth.role === 'PROFESOR' || auth.role === 'ALUMNO') && classes.length > 0 && (
+                    <div className="classes-card">
+                        <h2>Your Classes</h2>
+                        <ul>
+                            {classes.map(cls => (
+                                <li key={cls.id}>{cls.name} ({cls.code})</li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
             </div>
 
             <div className="side-column">

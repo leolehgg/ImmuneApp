@@ -1,0 +1,64 @@
+.classes-section {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.class-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.class-form label {
+    font-weight: bold;
+}
+
+.class-form input {
+    padding: 8px;
+    font-size: 16px;
+}
+
+.class-form button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.class-form button:hover {
+    background-color: #45a049;
+}
+
+.class-list {
+    list-style: none;
+    padding: 0;
+}
+
+.class-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #f5f5f5;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+.class-list button {
+    background-color: #ef5350;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.class-list button:hover {
+    background-color: #d32f2f;
+}
+
+.error {
+    color: red;
+    margin-bottom: 10px;
+}

@@ -8,16 +8,9 @@ const Profile = () => {
     const { auth } = useAuth();
     const [user, setUser] = useState(null);
     const [editMode, setEditMode] = useState(false);
-    const [formData, setFormData] = useState({
-        name: '',
-        lastname: ''
-    });
+    const [formData, setFormData] = useState({ name: '', lastname: '' });
     const [passwordMode, setPasswordMode] = useState(false);
-    const [passwordData, setPasswordData] = useState({
-        oldPassword: '',
-        newPassword: '',
-        confirmNewPassword: ''
-    });
+    const [passwordData, setPasswordData] = useState({ oldPassword: '', newPassword: '', confirmNewPassword: '' });
     const [errMsg, setErrMsg] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
     const [passwordErrors, setPasswordErrors] = useState({});
@@ -30,10 +23,7 @@ const Profile = () => {
         try {
             const response = await axiosPrivate.get('/users/me');
             setUser(response.data);
-            setFormData({
-                name: response.data.name || '',
-                lastname: response.data.lastname || ''
-            });
+            setFormData({ name: response.data.name || '', lastname: response.data.lastname || '' });
         } catch (err) {
             setErrMsg('Failed to load profile');
             console.error(err);
@@ -52,15 +42,11 @@ const Profile = () => {
 
     const validatePassword = (data) => {
         const errors = {};
-        if (data.newPassword.length < 8) {
-            errors.newPassword = 'Password must be at least 8 characters long';
-        }
+        if (data.newPassword.length < 8) errors.newPassword = 'Password must be at least 8 characters long';
         if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(data.newPassword)) {
             errors.complexity = 'Password must contain at least one uppercase letter, one lowercase letter, and one number';
         }
-        if (data.newPassword !== data.confirmNewPassword) {
-            errors.confirmNewPassword = 'Passwords do not match';
-        }
+        if (data.newPassword !== data.confirmNewPassword) errors.confirmNewPassword = 'Passwords do not match';
         setPasswordErrors(errors);
         return Object.keys(errors).length === 0;
     };
@@ -112,6 +98,16 @@ const Profile = () => {
                     <p><strong>Name:</strong> {user.name || 'Not set'}</p>
                     <p><strong>Lastname:</strong> {user.lastname || 'Not set'}</p>
                     <p><strong>Role:</strong> {user.role}</p>
+                    {user.classes && user.classes.length > 0 && (
+                        <div>
+                            <strong>Classes:</strong>
+                            <ul>
+                                {user.classes.map(cls => (
+                                    <li key={cls.id}>{cls.name} ({cls.code})</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
                     <div className="profile-buttons">
                         <button onClick={() => setEditMode(true)}>Edit Profile</button>
                         <button onClick={() => setPasswordMode(true)}>Change Password</button>
@@ -183,8 +179,8 @@ const Profile = () => {
                         {passwordErrors.confirmNewPassword && <p className="validation-error">{passwordErrors.confirmNewPassword}</p>}
                     </div>
                     <div className="form-buttons">
-                        <button 
-                            type="submit" 
+                        <button
+                            type="submit"
                             disabled={Object.keys(passwordErrors).length > 0 || !passwordData.newPassword}
                         >
                             Change Password

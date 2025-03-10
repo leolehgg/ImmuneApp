@@ -1,31 +1,48 @@
 import { Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Login from './components/Login';
-import Register from './components/Register';
 import Home from './components/Home';
-import UserManagement from './components/UserManagement';
 import Profile from './components/Profile';
+import UserManagement from './components/UserManagement';
+import ClassManagement from './components/ClassManagement';
 import Unauthorized from './components/Unauthorized';
 import RequireAuth from './components/RequireAuth';
 import Navbar from './components/Navbar';
-import './css/global.css'; // Nueva ruta del CSS global
+import Sidebar from './components/Sidebar'; // Importar Sidebar
+import './css/global.css';
 
 function App() {
     return (
         <AuthProvider>
             <Navbar />
-            <main>
+            <div className="app-container">
                 <Routes>
                     <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route element={<RequireAuth allowedRoles={['USER', 'ADMIN']} />}>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/users" element={<UserManagement />} />
-                        <Route path="/profile" element={<Profile />} />
-                        <Route path="/unauthorized" element={<Unauthorized />} />
+                    <Route element={<RequireAuth allowedRoles={['ADMIN', 'PROFESOR', 'ALUMNO']} />}>
+                        <Route
+                            path="*"
+                            element={
+                                <>
+                                    <Sidebar />
+                                    <main className="main-content">
+                                        <Routes>
+                                            <Route path="/" element={<Home />} />
+                                            <Route path="/profile" element={<Profile />} />
+                                            <Route element={<RequireAuth allowedRoles={['ADMIN']} />}>
+                                                <Route path="/users" element={<UserManagement />} />
+                                            </Route>
+                                            <Route element={<RequireAuth allowedRoles={['ADMIN', 'PROFESOR']} />}>
+                                                <Route path="/classes" element={<ClassManagement />} />
+                                            </Route>
+                                            <Route path="/unauthorized" element={<Unauthorized />} />
+                                        </Routes>
+                                    </main>
+                                </>
+                            }
+                        />
                     </Route>
                 </Routes>
-            </main>
+            </div>
         </AuthProvider>
     );
 }

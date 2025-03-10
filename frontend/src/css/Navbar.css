@@ -1,0 +1,95 @@
+/* src/css/Navbar.css */
+.navbar {
+    background-color: #191919;
+    padding: 1rem;
+    color: white;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.navbar-brand {
+    color: white;
+    text-decoration: none;
+    font-size: 1.5rem;
+}
+
+.navbar-menu {
+    display: flex;
+    align-items: center;
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.user-info {
+    margin-right: 1rem;
+    font-size: 1rem;
+}
+
+.hamburger-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.hamburger-btn:hover {
+    background-color: #555;
+    border-radius: 4px;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #000000cc;
+    list-style: none;
+    padding: 0.5rem 0;
+    margin: 0;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    min-width: 150px;
+    z-index: 1000; /* Asegura que esté sobre otros elementos */
+}
+
+.dropdown-menu li {
+    padding: 0;
+}
+
+.dropdown-menu a,
+.dropdown-menu button {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: white;
+    text-decoration: none;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.dropdown-menu a:hover,
+.dropdown-menu button:hover {
+    background-color: #666;
+}
+
+.logout-btn {
+    color: #ff4444;
+}
+
+.logout-btn:hover {
+    background-color: #ff6666;
+    color: white;
+}

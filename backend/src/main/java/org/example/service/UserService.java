@@ -84,4 +84,9 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
     }
+
+    // En UserService.java
+    public List<User> getUsersByRole(User.Role role) {
+        return userRepository.findByRole(role);
+    }
 }
