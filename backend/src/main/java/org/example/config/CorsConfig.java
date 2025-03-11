@@ -49,7 +49,7 @@ public class CorsConfig {
 
                 registry.addMapping("/users/**")
                         .allowedOrigins(allowedOrigins)
-                        .allowedMethods("GET", "PUT", "DELETE", "OPTIONS")
+                        .allowedMethods("GET", "PUT", "POST", "DELETE", "OPTIONS")
                         .allowedHeaders("Authorization", "Content-Type")
                         .allowCredentials(false);
 

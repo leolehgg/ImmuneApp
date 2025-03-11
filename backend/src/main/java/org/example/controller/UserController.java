@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -25,11 +26,22 @@ public class UserController {
         this.jwtService = jwtService;
     }
 
+
+    // Mantener /users/list solo para ADMIN como estaba originalmente
     @GetMapping("/list")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<User>> getUsers() {
         List<User> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
+    }
+
+    // Nuevo endpoint para listar solo alumnos, accesible para ADMIN y PROFESOR
+    @GetMapping("/students")
+    @PreAuthorize("hasAnyRole('ADMIN', 'PROFESOR')")
+    public ResponseEntity<List<User>> getStudents(
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) {
+        List<User> students = userService.getUsersByRole(User.Role.ALUMNO);
+        return ResponseEntity.ok(students);
     }
 
     @GetMapping("/{id}")
@@ -49,7 +61,7 @@ public class UserController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<User> createUser(
+    public ResponseEntity<User> createProfessor(
             @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
             @RequestBody UserRequest userRequest) {
         String token = authHeader.substring(7);
@@ -112,19 +124,27 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'PROFESOR')") // Profesor puede eliminar sus estudiantes
+    @PreAuthorize("hasAnyRole('ADMIN', 'PROFESOR')")
+    @Transactional
     public ResponseEntity<Void> deleteUser(
             @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
             @PathVariable Long id) {
         String token = authHeader.substring(7);
         String email = jwtService.extractUsername(token);
         User requester = userService.getUserByEmail(email);
-        User user = userService.getUserById(id);
-        if (requester.getRole() == User.Role.PROFESOR && (!user.getCreatedBy().getId().equals(requester.getId()) || user.getRole() != User.Role.ALUMNO)) {
+        User userToDelete = userService.getUserById(id);
+
+        if (requester.getRole() == User.Role.ADMIN) {
+            userService.deleteUser(id);
+            return ResponseEntity.noContent().build();
+        } else if (requester.getRole() == User.Role.PROFESOR) {
+            if (userToDelete.getRole() == User.Role.ALUMNO) {
+                userService.deleteUser(id);
+                return ResponseEntity.noContent().build();
+            }
             throw new SecurityException("Unauthorized to delete this user");
         }
-        userService.deleteUser(id);
-        return ResponseEntity.noContent().build();
+        throw new SecurityException("Unauthorized access");
     }
 
     @GetMapping("/me")

@@ -12,9 +12,14 @@ const Sidebar = () => {
           <li>
             <Link to="/">Home</Link>
           </li>
+          {(auth.role === 'ADMIN' || auth.role === 'PROFESOR') && (
+            <li>
+              <Link to="/students">Manage Students</Link>
+            </li>
+          )}
           {auth.role === 'ADMIN' && (
             <li>
-              <Link to="/users">Manage Users</Link>
+              <Link to="/professors">Manage Professors</Link>
             </li>
           )}
           {(auth.role === 'ADMIN' || auth.role === 'PROFESOR') && (

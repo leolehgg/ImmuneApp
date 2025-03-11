@@ -1,13 +1,137 @@
 /* src/css/Login.css */
-.login-section {
-    max-width: 400px;
-    margin: 40px auto;
+.login-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5; /* Gris claro como fondo */
+  z-index: 1000;
+  padding: 20px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 30px;
+  background-color: #ffffff; /* Blanco para la tarjeta */
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra gris */
+  text-align: center;
+}
+
+.login-header {
+  margin-bottom: 20px;
+}
+
+.login-icon {
+  width: 100%;
+  max-width: 300px; /* Imagen grande */
+  height: auto;
+  object-fit: contain;
+  margin-bottom: 15px;
+}
+
+.login-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333333; /* Negro/gris oscuro para el título */
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.login-error {
+  background-color: #666666; /* Gris medio para errores */
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.login-form-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-bottom: 0;
+}
+
+.login-form-group label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #666666; /* Gris para etiquetas */
+  margin-bottom: 8px;
+}
+
+.login-form-group input {
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+  border: 1px solid #e0e0e0; /* Gris claro para bordes */
+  border-radius: 5px;
+  background-color: #ffffff; /* Blanco para inputs */
+  transition: border-color 0.2s ease;
+}
+
+.login-form-group input:focus {
+  border-color: #333333; /* Negro/gris oscuro al enfocar */
+  outline: none;
+}
+
+.login-form-group input::placeholder {
+  color: #999999; /* Gris claro para placeholder */
+}
+
+.login-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #333333; /* Negro/gris oscuro para botón */
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-transform: uppercase;
+}
+
+.login-button:hover {
+  background-color: #444444; /* Gris más oscuro al hover */
+}
+
+/* Responsividad */
+@media (max-width: 480px) {
+  .login-card {
     padding: 20px;
-    background-color: #ffffff;
-    border-radius: 6px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    max-width: 350px;
   }
-  
-  .login-section form {
-    margin-top: 20px;
+
+  .login-icon {
+    max-width: 180px; /* Imagen un poco más pequeña en móvil */
   }
+
+  .login-title {
+    font-size: 20px;
+  }
+
+  .login-form-group input {
+    padding: 10px;
+  }
+
+  .login-button {
+    padding: 10px;
+    font-size: 14px;
+  }
+}

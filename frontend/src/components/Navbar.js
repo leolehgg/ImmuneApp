@@ -4,6 +4,9 @@ import useAuth from '../hooks/useAuth';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import '../css/Navbar.css';
 
+// Importa la imagen (ajusta la ruta según donde la coloques)
+import universityIcon from '../assets/images/immune_logo.png';
+
 const Navbar = () => {
   const { auth, setAuth } = useAuth();
   const axiosPrivate = useAxiosPrivate();
@@ -29,25 +32,27 @@ const Navbar = () => {
 
   return (
     <nav className="navbar-header">
-      <div className="container">
-        <Link to="/" className="navbar-brand">ImmuneApp</Link>
+      <div className="navbar-container">
+        <Link to="/" className="navbar-brand">
+          <img src={universityIcon} alt="UniversityApp Logo" className="navbar-logo" />
+        </Link>
         <div className="navbar-menu">
           {auth.accessToken ? (
-            <div className="user-menu">
-              <span className="user-info">
+            <div className="navbar-user-menu">
+              <span className="navbar-user-info">
                 {auth.email.split('@')[0]} ({auth.role})
               </span>
-              <button className="hamburger-btn" onClick={toggleDropdown}>
+              <button className="navbar-hamburger-btn" onClick={toggleDropdown}>
                 ☰
               </button>
               {isDropdownOpen && (
-                <ul className="dropdown-menu">
+                <ul className="navbar-dropdown-menu">
                   <li>
                     <Link to="/profile" onClick={toggleDropdown}>Profile</Link>
                   </li>
                   <li>
                     <button
-                      className="logout-btn"
+                      className="navbar-logout-btn"
                       onClick={() => { handleLogout(); toggleDropdown(); }}
                     >
                       Logout
@@ -57,7 +62,7 @@ const Navbar = () => {
               )}
             </div>
           ) : (
-            <Link to="/login">Login</Link>
+            <Link to="/login" className="navbar-login-link">Login</Link>
           )}
         </div>
       </div>

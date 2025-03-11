@@ -16,7 +16,7 @@ const ClassManagement = () => {
   useEffect(() => {
     fetchClasses();
     fetchProfessors();
-    if (auth.role === 'ADMIN') fetchStudents();
+    fetchStudents(); // Cambiar a siempre cargar estudiantes
   }, [axiosPrivate]);
 
   const fetchClasses = async () => {
@@ -44,10 +44,11 @@ const ClassManagement = () => {
 
   const fetchStudents = async () => {
     try {
-      const response = await axiosPrivate.get('/users/list');
-      setStudents(response.data.filter(u => u.role === 'ALUMNO'));
+      const response = await axiosPrivate.get('/users/students'); // Cambiar a /users/students
+      setStudents(response.data);
     } catch (err) {
-      console.error('Failed to fetch students:', err);
+      setErrMsg('Failed to fetch students');
+      console.error(err);
     }
   };
 

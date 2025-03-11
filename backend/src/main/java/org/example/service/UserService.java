@@ -58,13 +58,19 @@ public class UserService {
         return userRepository.save(user);
     }
 
+
     @Transactional
     public void deleteUser(Long id) {
         User user = getUserById(id);
+        // Primero eliminamos las referencias del usuario en class_students si es un alumno
+        if (user.getRole() == User.Role.ALUMNO) {
+            classRepository.removeStudentFromAllClasses(id);
+        }
+        // Eliminamos los tokens asociados al usuario
         tokenRepository.deleteByUser(user);
+        // Finalmente eliminamos el usuario
         userRepository.deleteById(id);
     }
-
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + email));

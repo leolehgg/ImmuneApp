@@ -1,103 +1,141 @@
 /* src/css/Navbar.css */
 .navbar-header {
-    background-color: #1f1f1f;
-    padding: 10px 30px;
-    color: #ffffff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  background-color: #ffffff; /* Gris oscuro */
+  padding: 10px 30px;
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.navbar-logo {
+  width: 100%;
+  max-width: 120px; /* Tamaño de la imagen */
+  height: auto;
+  object-fit: contain;
+}
+
+.navbar-menu {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-user-menu {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-user-info {
+  font-size: 14px;
+  color: #000000; /* Gris claro */
+  margin-right: 12px;
+  white-space: nowrap;
+}
+
+.navbar-hamburger-btn {
+  background: none;
+  border: none;
+  color: #000000;
+  font-size: 18px;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.navbar-hamburger-btn:hover {
+  background-color: #c9c9c9; /* Gris más claro */
+}
+
+.navbar-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #ffffff; /* Blanco */
+  padding: 8px 0;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-width: 120px;
+  list-style: none;
+  z-index: 1000;
+}
+
+.navbar-dropdown-menu li {
+  padding: 0;
+}
+
+.navbar-dropdown-menu a,
+.navbar-dropdown-menu button {
+  display: block;
+  padding: 8px 16px;
+  color: #333333; /* Negro/gris oscuro */
+  font-size: 14px;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-decoration: none;
+}
+
+.navbar-dropdown-menu a:hover,
+.navbar-dropdown-menu button:hover {
+  background-color: #e0e0e0; /* Gris claro al hover */
+}
+
+.navbar-login-link {
+  color: #ffffff;
+  font-size: 14px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.navbar-login-link:hover {
+  color: #cccccc; /* Gris claro al hover */
+}
+
+.navbar-logout-btn {
+  color: #333333; /* Negro/gris oscuro */
+}
+
+.navbar-logout-btn:hover {
+  background-color: #e0e0e0; /* Gris claro al hover */
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .navbar-header {
+    padding: 8px 12px;
   }
-  
-  .navbar-header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
+
+  .navbar-logo {
+    max-width: 100px; /* Imagen más pequeña en móvil */
   }
-  
-  .navbar-header .navbar-brand {
-    font-size: 18px;
-    font-weight: 600;
-    color: #ffffff;
-    text-decoration: none;
+
+  .navbar-user-info {
+    font-size: 12px;
   }
-  
-  .navbar-header .navbar-menu {
-    display: flex;
-    align-items: center;
+
+  .navbar-hamburger-btn {
+    font-size: 16px;
   }
-  
-  .navbar-header .user-menu {
-    position: relative;
-    display: flex;
-    align-items: center;
+
+  .navbar-login-link {
+    font-size: 12px;
   }
-  
-  .navbar-header .user-info {
-    font-size: 14px;
-    color: #cccccc;
-    margin-right: 12px;
-    white-space: nowrap;
-  }
-  
-  .navbar-header .hamburger-btn {
-    background: none;
-    border: none;
-    color: #ffffff;
-    font-size: 18px;
-    padding: 4px 8px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-  
-  .navbar-header .hamburger-btn:hover {
-    background-color: #333333;
-  }
-  
-  .navbar-header .dropdown-menu {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background-color: #ffffff;
-    padding: 8px 0;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    min-width: 120px;
-    list-style: none;
-    z-index: 1000;
-  }
-  
-  .navbar-header .dropdown-menu li {
-    padding: 0;
-  }
-  
-  .navbar-header .dropdown-menu a,
-  .navbar-header .dropdown-menu button {
-    display: block;
-    padding: 8px 16px;
-    color: #333333;
-    font-size: 14px;
-    background: none;
-    border: none;
-    width: 100%;
-    text-align: left;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    text-decoration: none;
-  }
-  
-  .navbar-header .dropdown-menu a:hover,
-  .navbar-header .dropdown-menu button:hover {
-    background-color: #f5f5f5;
-  }
-  
-  @media (max-width: 768px) {
-    .navbar-header {
-      padding: 8px 12px;
-    }
-  
-    .navbar-header .user-info {
-      font-size: 12px;
-    }
-  }
+}
